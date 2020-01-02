@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>test</title>
+    
+        <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+        <!-- <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.css"> -->
+    
+        <script src="./jquery.js"></script>
+        <script src="./bootstrap/js/bootstrap.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <input type="text" placeholder="telephone" name="telephone" id="telephone"/>
+            </div>
+            <div class="row">
+                <button id="getOpt" type="submit">
+                    getOpt
+                </button>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        jQuery(document).ready(function(){
+            $("#getOpt").on("click", function(){
+                var tel = $("#telephone").val();
+                if(tel == null || tel == ""){
+                    alert("telephone is null");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    url: "http://localhost:8080/user/getopt",
+                    data:{
+                        "telephone": $("#telephone").val()
+                    },
+                    success: function(data){
+                        if(data.status == "success"){
+                            alert("OK");
+                        }else{
+                            alert("fail" + data.status);
+                        }
+                    },
+                    error: function(data){
+                        alert(data.responseText);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</html>
