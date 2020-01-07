@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>register</title>
+    
+        <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+        <!-- <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.css"> -->
+    
+        <script src="./jquery.js"></script>
+        <script src="./bootstrap/js/bootstrap.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <input type="text" placeholder="title" name="title" id="title"/>
+            </div>
+            <div class="row">
+                <input type="text" placeholder="price" name="price" id="price"/>
+            </div>
+            <div class="row">
+                <input type="text" placeholder="stock" name="stock" id="stock"/>
+            </div>
+            <div class="row">
+                <input type="text" placeholder="descriptions" name="descriptions" id="descriptions"/>
+            </div>
+            <div class="row">
+                <input type="text" placeholder="sales" name="sales" id="sales"/>
+            </div>
+            <div class="row">
+                <input type="text" placeholder="imgUrl" name="imgUrl" id="imgUrl"/>
+            </div>
+            <div class="row">
+                <button id="confirm" type="submit">
+                    confirm
+                </button>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        jQuery(document).ready(function(){
+            $("#confirm").on("click", function(){
+                var title = $("#title").val();
+                var price = $("#price").val();
+                var stock = $("#stock").val();
+                var descriptions = $("#descriptions").val();
+                var sales = $("#sales").val();
+                var imgUrl = $("#imgUrl").val();
+                if(title == null || title == "" || 
+                   price == null || price == "" || 
+                   stock == null || stock == "" || 
+                   descriptions == null || descriptions == "" || 
+                   sales == null || sales == "" || 
+                   imgUrl == null || imgUrl == ""){
+                    alert("someone is null");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    url: "http://localhost:8080/item/create",
+                    data:{
+                        "title": title,
+                        "price": price,
+                        "stock": stock,
+                        "descriptions": descriptions,
+                        "sales": sales,
+                        "imgUrl": imgUrl
+                    },
+                    success: function(data){
+                        if(data.status == "success"){
+                            alert("OK");
+                            console.log(data);
+                        }else{
+                            alert(data.data.errCode + "\r\n" + data.data.errMsg);
+                            console.log(data);
+                        }
+                    },
+                    error: function(data){
+                        alert(data.responseText);
+                    },
+                    xhrFields: {withCredentials: true}
+                });
+                return false;
+            });
+        });
+    </script>
+</html>
