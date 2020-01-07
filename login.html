@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>register</title>
+        <title>login</title>
     
         <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
         <!-- <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.css"> -->
@@ -15,18 +15,6 @@
         <div class="container">
             <div class="row">
                 <input type="text" placeholder="telephone" name="telephone" id="telephone"/>
-            </div>
-            <div class="row">
-                <input type="text" placeholder="opt" name="opt" id="opt"/>
-            </div>
-            <div class="row">
-                <input type="text" placeholder="name" name="name" id="name"/>
-            </div>
-            <div class="row">
-                <input type="text" placeholder="gender" name="gender" id="gender"/>
-            </div>
-            <div class="row">
-                <input type="text" placeholder="age" name="age" id="age"/>
             </div>
             <div class="row">
                 <input type="text" placeholder="password" name="password" id="password"/>
@@ -43,16 +31,8 @@
         jQuery(document).ready(function(){
             $("#confirm").on("click", function(){
                 var tel = $("#telephone").val();
-                var opt = $("#opt").val();
-                var name = $("#name").val();
-                var gender = $("#gender").val();
-                var age = $("#age").val();
                 var password = $("#password").val();
                 if(tel == null || tel == "" || 
-                   opt == null || opt == "" || 
-                   name == null || name == "" || 
-                   gender == null || gender == "" || 
-                   age == null || age == "" || 
                    password == null || password == ""){
                     alert("someone is null");
                     return false;
@@ -60,18 +40,15 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/x-www-form-urlencoded",
-                    url: "http://localhost:8080/user/register",
+                    url: "http://localhost:8080/user/login",
                     data:{
                         "telephone": tel,
-                        "opt": opt,
-                        "name": name,
-                        "gender": gender,
-                        "age": age,
                         "password": password
                     },
                     success: function(data){
                         if(data.status == "success"){
                             alert("OK");
+                            console.log(data);
                         }else{
                             alert(data.data.errCode + "\r\n" + data.data.errMsg);
                             console.log(data);

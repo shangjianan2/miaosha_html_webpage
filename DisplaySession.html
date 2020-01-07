@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>session</title>
+    
+        <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+        <!-- <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.css"> -->
+    
+        <script src="./jquery.js"></script>
+        <script src="./bootstrap/js/bootstrap.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="display" class="row">
+                press F12 to look session
+            </div>
+            <div class="row">
+                <button id="confirm" type="submit">
+                    confirm
+                </button>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        jQuery(document).ready(function(){
+            $("#confirm").on("click", function(){
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/user/session",
+                    success: function(data){
+                        if(data.status == "success"){
+                            alert("OK");
+                            console.log(data);
+                        }else{
+                            alert(data.data.errCode + "\r\n" + data.data.errMsg);
+                            console.log(data);
+                        }
+                    },
+                    error: function(data){
+                        alert(data.responseText);
+                    },
+                    xhrFields: {withCredentials: true}
+                });
+                return false;
+            });
+        });
+    </script>
+</html>
