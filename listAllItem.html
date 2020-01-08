@@ -38,8 +38,8 @@
                 success: function(data){
                     if(data.status == "success"){
                         response_list = data.data;
-                        loadItemList(response_list);
                         console.log(data);
+                        loadItemList(response_list);                        
                     }else{
                         alert(data.data.errCode + "\r\n" + data.data.errMsg);
                         console.log(data);
@@ -54,7 +54,8 @@
         });
         function loadItemList(res_list){
             for(var i = 0; i < res_list.length; ++i){
-                var dom = "<tr><td>" + res_list[i].id + 
+                var dom = "<tr data-dd='" + res_list[i].id + "' id='itemDetails" + res_list[i].id + "'><td>" 
+                            + res_list[i].id + 
                 "</td><td>" + res_list[i].title + 
                 "</td><td>" + res_list[i].price + 
                 "</td><td>" + res_list[i].stock + 
@@ -62,6 +63,10 @@
                 "</td><td>" + res_list[i].sales + 
                 "</td><td><img src='" + res_list[i].imgUrl + "' height='100px' width='auto'/></td></tr>";
                 $("#list_table").append(dom);
+                $("#itemDetails" + res_list[i].id).on("click", function(e){
+                    console.log("press");
+                    window.location.href = "itemDetails.html?id=" + $(this).data("dd");                    
+                });
             }
         }
     </script>
