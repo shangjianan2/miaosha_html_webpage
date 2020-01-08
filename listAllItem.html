@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>listAllItem</title>
+    
+        <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+        <!-- <link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.css"> -->
+    
+        <script src="./jquery.js"></script>
+        <script src="./bootstrap/js/bootstrap.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table" id="list_table">
+                    <tr>
+                        <td>id</td>
+                        <td>title</td>
+                        <td>price</td>
+                        <td>stock</td>
+                        <td>descriptions</td>
+                        <td>sales</td>
+                        <td>img</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        jQuery(document).ready(function(){
+            var response_list = [];
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/item/list",
+                success: function(data){
+                    if(data.status == "success"){
+                        response_list = data.data;
+                        loadItemList(response_list);
+                        console.log(data);
+                    }else{
+                        alert(data.data.errCode + "\r\n" + data.data.errMsg);
+                        console.log(data);
+                    }
+                },
+                error: function(data){
+                    alert(data.responseText);
+                },
+                xhrFields: {withCredentials: true}
+            });
+            return false;
+        });
+        function loadItemList(res_list){
+            for(var i = 0; i < res_list.length; ++i){
+                var dom = "<tr><td>" + res_list[i].id + 
+                "</td><td>" + res_list[i].title + 
+                "</td><td>" + res_list[i].price + 
+                "</td><td>" + res_list[i].stock + 
+                "</td><td>" + res_list[i].descriptions + 
+                "</td><td>" + res_list[i].sales + 
+                "</td><td><img src='" + res_list[i].imgUrl + "' height='100px' width='auto'/></td></tr>";
+                $("#list_table").append(dom);
+            }
+        }
+    </script>
+</html>
